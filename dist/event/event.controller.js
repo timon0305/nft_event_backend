@@ -43,7 +43,6 @@ let EventController = class EventController {
             const small_path = 'assets/uploads/eventcards/' + smallfileName;
             await this.uploadService.upload(large_path, files.large_image[0]);
             await this.uploadService.upload(small_path, files.small_image[0]);
-            console.log(large_path, small_path);
             const eventCard = await this.eventService.createEventCard(Object.assign({ picture_large: large_path, picture_small: small_path }, body));
             return { success: true, eventcard: eventCard };
         }
@@ -104,11 +103,11 @@ let EventController = class EventController {
     }
 };
 __decorate([
+    (0, common_1.Post)('create_eventcard'),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileFieldsInterceptor)([
         { name: 'large_image', maxCount: 1 },
         { name: 'small_image', maxCount: 1 },
     ])),
-    (0, common_1.Post)('create_eventcard'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, swagger_1.ApiOkResponse)({}),
     __param(0, (0, common_1.Body)()),
@@ -133,7 +132,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], EventController.prototype, "getAllEventCards", null);
 __decorate([
-    (0, common_1.Get)('eventcard:id'),
+    (0, common_1.Get)('/eventcard/:id'),
     (0, swagger_1.ApiOkResponse)({ type: evet_card_dto_1.EventCardDto }),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -141,7 +140,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], EventController.prototype, "getEventCardById", null);
 __decorate([
-    (0, common_1.Delete)('eventcard:id'),
+    (0, common_1.Delete)('/eventcard/:id'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, swagger_1.ApiOkResponse)({ type: evet_card_dto_1.EventCardDto }),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
