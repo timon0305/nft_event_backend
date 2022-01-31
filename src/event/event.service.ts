@@ -4,7 +4,7 @@ import { formatDate } from 'src/common/utils/date.util';
 import { Raw, Repository } from 'typeorm';
 
 import { getFromDto } from '../common/utils/repository.util';
-import { CreateEventCardDto } from './dtos/create_event_card.dto';
+import { CreateEventCardDto } from './dtos/create_event_card.dto'; 
 import { EventCard } from './entities/event_card.entity';
 import { Ticket } from './entities/ticket.entity';
 
