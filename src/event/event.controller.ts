@@ -37,13 +37,13 @@ export class EventController {
     private readonly eventService: EventService,
   ) {}
 
+  @Post('create_eventcard')
   @UseInterceptors(
     FileFieldsInterceptor([
       { name: 'large_image', maxCount: 1 },
       { name: 'small_image', maxCount: 1 },
     ]),
   )
-  @Post('create_eventcard')
   @UseGuards(JwtAuthGuard)
   @ApiOkResponse({})
   async create_event_card(
@@ -67,12 +67,10 @@ export class EventController {
           length: 16,
           charset: 'alphabetic',
         }) + '.jpg';
-
       const large_path = 'assets/uploads/eventcards/' + largefileName;
       const small_path = 'assets/uploads/eventcards/' + smallfileName;
       await this.uploadService.upload(large_path, files.large_image[0]);
       await this.uploadService.upload(small_path, files.small_image[0]);
-      console.log(large_path, small_path);
       const eventCard = await this.eventService.createEventCard({
         picture_large: large_path,
         picture_small: small_path,
@@ -105,7 +103,7 @@ export class EventController {
     };
   }
 
-  @Get('eventcard:id')
+  @Get('/eventcard/:id')
   @ApiOkResponse({ type: EventCardDto })
   async getEventCardById(@Param('id') id: string): Promise<any> {
     const eventCard = await this.eventService.findById(id);
@@ -116,7 +114,8 @@ export class EventController {
     }
   }
 
-  @Delete('eventcard:id')
+  @Delete('/eventcard/:id')
+  @UseGuards(JwtAuthGuard)
   @ApiOkResponse({ type: EventCardDto })
   async deleteEventById(@Param('id') id: string): Promise<any> {
     try {
