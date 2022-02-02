@@ -103,7 +103,7 @@ export class EventController {
     };
   }
 
-  @Get('/eventcard/:id')
+  @Get('/eventcard:id')
   @ApiOkResponse({ type: EventCardDto })
   async getEventCardById(@Param('id') id: string): Promise<any> {
     const eventCard = await this.eventService.findById(id);
